@@ -1,5 +1,8 @@
 package org.example;
 import org.springframework.data.repository.CrudRepository;
 
-public interface WarehouseRepository extends CrudRepository<Warehouse, Integer> {
+import java.util.Optional;
+
+public interface WarehouseRepository extends CrudRepository<Warehouse, Long> {
+    Optional<Warehouse> findByWarehouseID(Long warehouseID);
 }

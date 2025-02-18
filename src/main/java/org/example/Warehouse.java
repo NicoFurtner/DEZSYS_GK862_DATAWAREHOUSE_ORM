@@ -14,6 +14,7 @@ public class Warehouse {
     private String warehousePostalCode;
     private String warehouseCity;
     private String warehouseCountry;
+    private String timestamp;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     private List<Product> productData;
@@ -29,6 +30,36 @@ public class Warehouse {
     }
     public void setWarehouseName(String warehouseName) {
         this.warehouseName = warehouseName;
+    }
+    public String getWarehouseAddress() {
+        return warehouseAddress;
+    }
+    public void setWarehouseAddress(String warehouseAddress) {
+        this.warehouseAddress = warehouseAddress;
+    }
+    public String getWarehousePostalCode() {
+        return warehousePostalCode;
+    }
+    public void setWarehousePostalCode(String warehousePostalCode) {
+        this.warehousePostalCode = warehousePostalCode;
+    }
+    public String getWarehouseCity() {
+        return warehouseCity;
+    }
+    public void setWarehouseCity(String warehouseCity) {
+        this.warehouseCity = warehouseCity;
+    }
+    public String getWarehouseCountry() {
+        return warehouseCountry;
+    }
+    public void setWarehouseCountry(String warehouseCountry) {
+        this.warehouseCountry = warehouseCountry;
+    }
+    public String getTimestamp() {
+        return timestamp;
+    }
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
     public List<Product> getProductData() {
         return productData;

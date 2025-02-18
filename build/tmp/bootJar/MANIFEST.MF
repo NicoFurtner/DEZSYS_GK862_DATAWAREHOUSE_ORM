@@ -7,6 +7,6 @@ Spring-Boot-Lib: BOOT-INF/lib/
 Spring-Boot-Classpath-Index: BOOT-INF/classpath.idx
 Spring-Boot-Layers-Index: BOOT-INF/layers.idx
 Build-Jdk-Spec: 20
-Implementation-Title: aufgabe1sose
+Implementation-Title: DEZSYS_GK862_WAREHOUSE_ORM
 Implementation-Version: 0.0.1-SNAPSHOT
 
