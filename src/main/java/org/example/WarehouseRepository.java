@@ -1,5 +1,5 @@
 package org.example;
 import org.springframework.data.repository.CrudRepository;
 
-public interface WarehouseRepository extends CrudRepository<User, Integer> {
+public interface WarehouseRepository extends CrudRepository<Warehouse, Integer> {
 }
