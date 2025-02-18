@@ -34,6 +34,6 @@ public class WarehouseController {
     }
     @GetMapping("/{id}")
     public @ResponseBody Optional<Warehouse> getWarehouse(@PathVariable Long id) {
-        return warehouseRepository.findByWarehouseID(id);
+        return warehouseRepository.findById(id);
     }
 }

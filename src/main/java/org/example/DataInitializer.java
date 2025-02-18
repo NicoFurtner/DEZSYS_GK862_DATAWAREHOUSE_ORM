@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
-
     private final WarehouseRepository warehouseRepository;
     private final ProductRepository productRepository;
 
@@ -13,9 +12,8 @@ public class DataInitializer implements CommandLineRunner {
         this.warehouseRepository = warehouseRepository;
         this.productRepository = productRepository;
     }
-
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (warehouseRepository.count() == 0) {
             Warehouse warehouse1 = new Warehouse();
             warehouse1.setWarehouseName("Linz Bahnhof");
