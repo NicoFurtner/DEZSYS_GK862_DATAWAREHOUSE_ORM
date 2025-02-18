@@ -7,7 +7,7 @@ Nico Furtner
 With:
 
 ```bash
-docker run --name mysql-warehouse -e MYSQL_ROOT_PASSWORD=root MYSQL_DATABASE= warehouse -p 3306:3306
+docker run --name mysql-warehouse -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=warehouse -p 3306:3306 mysql
 ```
 
 we can run the docker mysql and create the database and:
