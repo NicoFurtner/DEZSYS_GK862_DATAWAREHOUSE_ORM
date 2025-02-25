@@ -1,4 +1,4 @@
-package org.example;
+/**package org.example;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class DataInitializer implements CommandLineRunner {
             Warehouse warehouse1 = new Warehouse();
             warehouse1.setWarehouseName("Linz Bahnhof");
             warehouse1.setWarehouseAddress("Bahnhofsstrasse 27/9");
-            warehouse1.setWarehousePostalCode("4020");
+            warehouse1.setWarehousePostalCode(4020);
             warehouse1.setWarehouseCity("Linz");
             warehouse1.setWarehouseCountry("Austria");
             warehouseRepository.save(warehouse1);
@@ -26,7 +26,7 @@ public class DataInitializer implements CommandLineRunner {
             Warehouse warehouse2 = new Warehouse();
             warehouse2.setWarehouseName("Graz City Warehouse");
             warehouse2.setWarehouseAddress("Griesplatz 15");
-            warehouse2.setWarehousePostalCode("8020");
+            warehouse2.setWarehousePostalCode(8020);
             warehouse2.setWarehouseCity("Graz");
             warehouse2.setWarehouseCountry("Austria");
             warehouseRepository.save(warehouse2);
@@ -49,3 +49,4 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 }
+*/

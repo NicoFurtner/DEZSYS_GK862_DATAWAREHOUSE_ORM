@@ -1,14 +1,14 @@
 package org.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-@RequestMapping(path = "/products")
+@RestController
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
@@ -17,45 +17,49 @@ public class ProductController {
     @Autowired
     private WarehouseRepository warehouseRepository;
 
-    @PostMapping(path = "/add")
-    public @ResponseBody String addNewProduct(@RequestParam String productName,
-                                              @RequestParam String productCategory,
-                                              @RequestParam int productQuantity,
-                                              @RequestParam String productUnit,
-                                              @RequestParam Long warehouseID) {
-
-        Optional<Warehouse> warehouseOptional = warehouseRepository.findById(warehouseID);
+    @PostMapping("/add")
+    public String addNewProduct(@RequestBody Product product) {
+        Optional<Warehouse> warehouseOptional = warehouseRepository.findById(product.getWarehouseID());
 
         if (warehouseOptional.isEmpty()) {
-            return "Warehouse not found";
+            return "Warehouse not found!";
         }
-
-        Warehouse warehouse = warehouseOptional.get();
-
-        Product product = new Product();
-        product.setProductName(productName);
-        product.setProductCategory(productCategory);
-        product.setProductQuantity(productQuantity);
-        product.setProductUnit(productUnit);
-        product.setWarehouse(warehouse);
 
         productRepository.save(product);
 
-        return "Product added successfully";
+        Warehouse warehouse = warehouseOptional.get();
+        List<Product> products = warehouse.getProducts();
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        products.add(product);
+        warehouse.setProducts(products);
+
+        warehouseRepository.save(warehouse);
+
+        return "Product added successfully to warehouse";
     }
-    @GetMapping("/all")
-    public @ResponseBody List<Product> getAllProducts() {
-        return (List<Product>) productRepository.findAll();
+
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
+
     @GetMapping("/{id}")
-    public @ResponseBody String getProduct(@PathVariable Long id) {
+    public Optional<Product> getProductById(@PathVariable String id) {
+        return productRepository.findById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable String id) {
         Optional<Product> productOptional = productRepository.findById(id);
 
         if (productOptional.isEmpty()) {
-            return "Product not found";
+            return "Product not found!";
         }
 
-        Product product = productOptional.get();
-        return "Product found: " + product.getProductName();
+        productRepository.deleteById(id);
+        return "Product deleted successfully";
     }
 }

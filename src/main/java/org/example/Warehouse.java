@@ -1,70 +1,76 @@
 package org.example;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
-@Entity
+@Document
 public class Warehouse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long warehouseID;
+    private String id; // MongoDB _id
+
     private String warehouseName;
-    private String warehouseAddress;
-    private String warehousePostalCode;
+    private String timestamp;
+    private int warehousePostalCode;
     private String warehouseCity;
     private String warehouseCountry;
-    private String timestamp;
+    private List<Product> products;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
-    private List<Product> productData;
-    public Warehouse() {}
-    public Long getWarehouseID() {
-        return warehouseID;
+    public String getId() {
+        return id;
     }
-    public void setWarehouseID(Long warehouseID) {
-        this.warehouseID = warehouseID;
+
+    public void setId(String id) {
+        this.id = id;
     }
+
     public String getWarehouseName() {
         return warehouseName;
     }
+
     public void setWarehouseName(String warehouseName) {
         this.warehouseName = warehouseName;
     }
-    public String getWarehouseAddress() {
-        return warehouseAddress;
-    }
-    public void setWarehouseAddress(String warehouseAddress) {
-        this.warehouseAddress = warehouseAddress;
-    }
-    public String getWarehousePostalCode() {
-        return warehousePostalCode;
-    }
-    public void setWarehousePostalCode(String warehousePostalCode) {
-        this.warehousePostalCode = warehousePostalCode;
-    }
-    public String getWarehouseCity() {
-        return warehouseCity;
-    }
-    public void setWarehouseCity(String warehouseCity) {
-        this.warehouseCity = warehouseCity;
-    }
-    public String getWarehouseCountry() {
-        return warehouseCountry;
-    }
-    public void setWarehouseCountry(String warehouseCountry) {
-        this.warehouseCountry = warehouseCountry;
-    }
+
     public String getTimestamp() {
         return timestamp;
     }
+
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-    public List<Product> getProductData() {
-        return productData;
+
+    public int getWarehousePostalCode() {
+        return warehousePostalCode;
     }
-    public void setProductData(List<Product> productData) {
-        this.productData = productData;
+
+    public void setWarehousePostalCode(int warehousePostalCode) {
+        this.warehousePostalCode = warehousePostalCode;
+    }
+
+    public String getWarehouseCity() {
+        return warehouseCity;
+    }
+
+    public void setWarehouseCity(String warehouseCity) {
+        this.warehouseCity = warehouseCity;
+    }
+
+    public String getWarehouseCountry() {
+        return warehouseCountry;
+    }
+
+    public void setWarehouseCountry(String warehouseCountry) {
+        this.warehouseCountry = warehouseCountry;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

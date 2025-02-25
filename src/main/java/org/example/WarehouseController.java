@@ -1,39 +1,37 @@
 package org.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
-@Controller
-@RequestMapping(path = "/warehouses")
+@RestController
+@RequestMapping("/warehouse")
 public class WarehouseController {
 
     @Autowired
     private WarehouseRepository warehouseRepository;
-    @PostMapping(path = "/add")
-    public @ResponseBody String addNewWarehouse(@RequestParam String warehouseName,
-                                                @RequestParam String warehouseAddress,
-                                                @RequestParam String warehousePostalCode,
-                                                @RequestParam String warehouseCity,
-                                                @RequestParam String warehouseCountry,
-                                                @RequestParam String timestamp) {
 
-        Warehouse warehouse = new Warehouse();
-        warehouse.setWarehouseName(warehouseName);
-        warehouse.setWarehouseAddress(warehouseAddress);
-        warehouse.setWarehousePostalCode(warehousePostalCode);
-        warehouse.setWarehouseCity(warehouseCity);
-        warehouse.setWarehouseCountry(warehouseCountry);
-        warehouse.setTimestamp(timestamp);
-
+    @PostMapping("/add")
+    public String addNewWarehouse(@RequestBody Warehouse warehouse) {
         warehouseRepository.save(warehouse);
-
         return "Warehouse added successfully";
     }
+
+    @GetMapping
+    public List<Warehouse> getAllWarehouses() {
+        return warehouseRepository.findAll();
+    }
+
     @GetMapping("/{id}")
-    public @ResponseBody Optional<Warehouse> getWarehouse(@PathVariable Long id) {
+    public Optional<Warehouse> getWarehouseById(@PathVariable String id) {
         return warehouseRepository.findById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteWarehouse(@PathVariable String id) {
+        warehouseRepository.deleteById(id);
+        return "Warehouse deleted successfully";
     }
 }

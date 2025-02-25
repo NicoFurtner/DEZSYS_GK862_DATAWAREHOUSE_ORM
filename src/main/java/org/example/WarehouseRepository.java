@@ -1,7 +1,6 @@
 package org.example;
-import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface WarehouseRepository extends CrudRepository<Warehouse, Long> {
+public interface WarehouseRepository extends MongoRepository<Warehouse, String> {
 }
