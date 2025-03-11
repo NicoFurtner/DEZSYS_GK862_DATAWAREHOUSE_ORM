@@ -154,5 +154,123 @@ public void run(String... args) {
     
   - delete(): delete specific entity
     
+# Nicht relationale Datenbank MongoDB
 
+### Dokumenation
+
+To work with MongoDB, we add the configuration for MongoDB in the `application.properties` file:
+
+`spring.data.mongodb.uri=mongodb://localhost:27017/warehouse_db`
+
+Here we set the localhost for MongoDB. I am using MongoDB Compass, where you create a new connection. When you run the code (explanation coming shortly) with `bootRun`, the database is automatically added. When you upload data via a POST request or through the MongoDB shell, the data will be displayed afterward.
+
+![MongoDBCompasspng](file://C:\Users\Nico%20IO\OneDrive%20-%20tgm%20-%20Die%20Schule%20der%20Technik\4.%20Jahrgang\Systemtechnik\DEZSYS\MongoDBCompass.png?msec=1741695517126)
+
+### Changes to Entity Classes for MongoDB:
+
+The Entity annotation has now changed to Document
+
+- `@Document`: Maps the class to a MongoDB collection.
+- `@Getter`: Automatically generates getter methods for all fields.
+- `@Setter`: Automatically generates setter methods for all fields.
+- `@NoArgsConstructor`: Generates a no-argument constructor.
+- `@AllArgsConstructor`: Generates a constructor with arguments for all fields.
+
+**Repository**: Transitioned from `JpaRepository` to `MongoRepository` for MongoDB support.
+
+public interface WarehouseRepository extends MongoRepository<Warehouse, String>
+
+**Service Methods**: Methods now work with MongoDB's CRUD operations and document-based storage.
+
+**Data Model**: Products are embedded directly inside the warehouse documents, instead of being stored separately with foreign key relationships.
+
+For the REST API we still need the controller class for post get delete requests
+
+![PostManpng](file://C:\Users\Nico%20IO\OneDrive%20-%20tgm%20-%20Die%20Schule%20der%20Technik\4.%20Jahrgang\Systemtechnik\DEZSYS\PostMan.png?msec=1741696262836)
+
+### **CRUD Operations in MongoDB Shell**
+
+**Add a Product**
+
+```bash
+db.warehouses.update(
+    { _id: "warehouse1" }, 
+    { $push: { products: { productId: "00-123456", name: "Bio Orange Juice", category: "Drink", quantity: 1500, unit: "1L Pack" } } }
+)
+```
+
+**Delete a Product**
+
+```bash
+db.warehouses.update(
+    { _id: "warehouse1" },
+    { $pull: { products: { productId: "00-123456" } } }
+)
+```
+
+**Update Product's Quantity**
+
+```bash
+db.warehouses.update(
+    { _id: "warehouse1", "products.productId": "00-123456" },
+    { $set: { "products.$.quantity": 2000 } }
+)
+```
+
+**Find All Products in a Warehouse**
+
+```bash
+db.warehouses.find({ _id: "warehouse1" }, { products: 1 })
+```
+
+**Find a Product by ID in All Warehouses**
+
+```bash
+db.warehouses.find({
+  "products.productId": "4"
+}, { "products.$": 1 }).pretty()
+
+```
+
+Here I first had problems because he didn't find the db and added it to something else, because I forgot to connect with the database in the shell `use warehouse_db` and then everything worked.
+
+Example with adding a product
+
+![shellmongodbpng](file://C:\Users\Nico%20IO\OneDrive%20-%20tgm%20-%20Die%20Schule%20der%20Technik\4.%20Jahrgang\Systemtechnik\DEZSYS\shellmongodb.png?msec=1741697727106)
+
+### Advantages of NoSQL over Relational DBMS:
+
+1. **Scalability**: Easy horizontal scaling.
+2. **Flexibility**: No fixed schema, supports various data structures.
+3. **Availability**: High availability, even in case of node failures.
+4. **Performance**: Fast processing of large amounts of data.
+
+### Disadvantages of NoSQL over Relational DBMS:
+
+1. **Lack of ACID Transactions**: No full transaction security.
+2. **Complex Queries**: Less expressive than SQL.
+3. **Lack of Standardization**: No unified model.
+4. **Data Inconsistency**: Potential issues with data quality.
+
+### Challenges when Merging Data:
+
+- **Incompatible Data Formats** and **Inconsistencies** between different sources.
+
+### Types of NoSQL Databases and Examples:
+
+1. **Document-Oriented**: MongoDB
+2. **Key-Value**: Redis
+3. **Column-Oriented**: Cassandra
+4. **Graph Database**: Neo4j
+
+### Abbreviations in the CAP Theorem:
+
+- **C**: Consistency (Data is the same everywhere)
+- **A**: Availability (Data is available at all times)
+- **P**: Partition Tolerance (System works despite network failures)
+
+### SQL Commands:
+
+- **Stock of all Locations**: `SELECT * FROM stock;`
+- **Stock of a Specific Location**: `SELECT * FROM stock WHERE location = 'XYZ';`
 author: Nico Furtner
