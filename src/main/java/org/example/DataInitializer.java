@@ -1,52 +1,43 @@
-/**package org.example;
+package org.example;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
-    private final WarehouseRepository warehouseRepository;
-    private final ProductRepository productRepository;
 
-    public DataInitializer(WarehouseRepository warehouseRepository, ProductRepository productRepository) {
+    private final WarehouseRepository warehouseRepository;
+
+    public DataInitializer(WarehouseRepository warehouseRepository) {
         this.warehouseRepository = warehouseRepository;
-        this.productRepository = productRepository;
     }
+
     @Override
     public void run(String... args) {
-        if (warehouseRepository.count() == 0) {
-            Warehouse warehouse1 = new Warehouse();
-            warehouse1.setWarehouseName("Linz Bahnhof");
-            warehouse1.setWarehouseAddress("Bahnhofsstrasse 27/9");
-            warehouse1.setWarehousePostalCode(4020);
-            warehouse1.setWarehouseCity("Linz");
-            warehouse1.setWarehouseCountry("Austria");
-            warehouseRepository.save(warehouse1);
+        warehouseRepository.deleteAll();
 
-            Warehouse warehouse2 = new Warehouse();
-            warehouse2.setWarehouseName("Graz City Warehouse");
-            warehouse2.setWarehouseAddress("Griesplatz 15");
-            warehouse2.setWarehousePostalCode(8020);
-            warehouse2.setWarehouseCity("Graz");
-            warehouse2.setWarehouseCountry("Austria");
-            warehouseRepository.save(warehouse2);
+        List<Product> products = Arrays.asList(
+                new Product("1", "Tablet", "Technologie", 75),
+                new Product("2", "Smartwatch", "Technologie", 110),
+                new Product("3", "Bluetooth Lautsprecher", "Technologie", 65),
+                new Product("4", "Gaming Maus", "Zubehör", 180),
+                new Product("5", "LED Monitor", "Zubehör", 140),
+                new Product("6", "Roman", "Bücher", 300),
+                new Product("7", "Notizbuch", "Bürobedarf", 450),
+                new Product("8", "Tintenpatrone", "Bürobedarf", 200),
+                new Product("9", "Esstisch", "Möbel", 120),
+                new Product("10", "Beistellstuhl", "Möbel", 90)
+        );
 
-            for (int i = 1; i <= 10; i++) {
-                Product product = new Product();
-                product.setProductName("Product " + i);
-                product.setProductCategory("Category " + i);
-                product.setProductQuantity(1000 + i * 10);
-                product.setProductUnit("Pack " + i + "L");
-                if (i % 2 == 0) {
-                    product.setWarehouse(warehouse2);
-                } else {
-                    product.setWarehouse(warehouse1);
-                }
-                productRepository.save(product);
-            }
+        Warehouse warehouse1 = new Warehouse("warehouse1", "Lager West", "Klagenfurt", products.subList(0, 5));
+        Warehouse warehouse2 = new Warehouse("warehouse2", "Lager Süd", "Graz", products.subList(5, 10));
 
-            System.out.println("2 Warehouses and 10 Products inserted successfully!");
-        }
+        warehouseRepository.saveAll(Arrays.asList(warehouse1, warehouse2));
+
+        System.out.println("Daten wurden erfolgreich in 2 Lagerhäusern abgelegt.");
     }
 }
-*/
+
