@@ -164,7 +164,7 @@ To work with MongoDB, we add the configuration for MongoDB in the `application.p
 
 Here we set the localhost for MongoDB. I am using MongoDB Compass, where you create a new connection. When you run the code (explanation coming shortly) with `bootRun`, the database is automatically added. When you upload data via a POST request or through the MongoDB shell, the data will be displayed afterward.
 
-![MongoDBCompasspng](file://C:\Users\Nico%20IO\OneDrive%20-%20tgm%20-%20Die%20Schule%20der%20Technik\4.%20Jahrgang\Systemtechnik\DEZSYS\MongoDBCompass.png?msec=1741695517126)
+![Alternativtext](MongoDBCompass.png)
 
 ### Changes to Entity Classes for MongoDB:
 
@@ -186,7 +186,7 @@ public interface WarehouseRepository extends MongoRepository<Warehouse, String>
 
 For the REST API we still need the controller class for post get delete requests
 
-![PostManpng](file://C:\Users\Nico%20IO\OneDrive%20-%20tgm%20-%20Die%20Schule%20der%20Technik\4.%20Jahrgang\Systemtechnik\DEZSYS\PostMan.png?msec=1741696262836)
+![Alternativtext](PostMan.png)
 
 ### **CRUD Operations in MongoDB Shell**
 
@@ -235,8 +235,8 @@ db.warehouses.find({
 Here I first had problems because he didn't find the db and added it to something else, because I forgot to connect with the database in the shell `use warehouse_db` and then everything worked.
 
 Example with adding a product
+![Alternativtext](shellmongodb.png)
 
-![shellmongodbpng](file://C:\Users\Nico%20IO\OneDrive%20-%20tgm%20-%20Die%20Schule%20der%20Technik\4.%20Jahrgang\Systemtechnik\DEZSYS\shellmongodb.png?msec=1741697727106)
 
 ### Advantages of NoSQL over Relational DBMS:
 
