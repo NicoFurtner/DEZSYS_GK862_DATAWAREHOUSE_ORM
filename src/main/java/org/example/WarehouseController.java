@@ -1,37 +1,62 @@
 package org.example;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/warehouse")
+@RequestMapping("/api/warehouses")
 public class WarehouseController {
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
+    private final WarehouseService warehouseService;
 
-    @PostMapping("/add")
-    public String addNewWarehouse(@RequestBody Warehouse warehouse) {
-        warehouseRepository.save(warehouse);
-        return "Warehouse added successfully";
+    public WarehouseController(WarehouseService warehouseService) {
+        this.warehouseService = warehouseService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Warehouse addWarehouse(@RequestBody Warehouse warehouse) {
+        return warehouseService.addWarehouse(warehouse);
     }
 
     @GetMapping
     public List<Warehouse> getAllWarehouses() {
-        return warehouseRepository.findAll();
+        return warehouseService.getAllWarehouses();
     }
 
     @GetMapping("/{id}")
     public Optional<Warehouse> getWarehouseById(@PathVariable String id) {
-        return warehouseRepository.findById(id);
+        return warehouseService.getWarehouseById(id);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteWarehouse(@PathVariable String id) {
-        warehouseRepository.deleteById(id);
-        return "Warehouse deleted successfully";
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteWarehouse(@PathVariable String id) {
+        warehouseService.deleteWarehouse(id);
+    }
+
+    @PostMapping("/{warehouseId}/products")
+    public Warehouse addProductToWarehouse(@PathVariable String warehouseId, @RequestBody Product product) {
+        return warehouseService.addProductToWarehouse(warehouseId, product);
+    }
+
+    @GetMapping("/products")
+    public List<Map<String, Object>> getAllProductsWithLocations() {
+        return warehouseService.getAllProductsWithLocations();
+    }
+
+    @GetMapping("/products/{productId}")
+    public Map<String, Object> getProductById(@PathVariable String productId) {
+        return warehouseService.getProductById(productId);
+    }
+
+    @DeleteMapping("/{warehouseId}/products/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProductFromWarehouse(@PathVariable String warehouseId, @PathVariable String productId) {
+        warehouseService.deleteProductFromWarehouse(warehouseId, productId);
     }
 }
